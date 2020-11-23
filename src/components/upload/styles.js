@@ -1,0 +1,139 @@
+import styled, { css } from 'styled-components';
+
+const dragActive = css`
+    border-color: #78e5d5;
+`;
+
+const dragReject = css`
+    border-color: #e57878;
+`;
+
+export const DropContainer = styled.div.attrs({
+    classname: "dropzone"
+})`
+    background-color: rgba(238, 238, 238, 0.3);
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 20px 20px;
+    transition: height 0.2s ease;
+
+    ${props => props.isDragActive && dragActive};
+    ${props => props.isDragReject && dragReject};
+`;
+
+export const HeaderDropContainer = styled.h2`
+    border-bottom: 1px solid #e8eaf6;
+    color: #717271;
+    display: flex;
+    font-family: "Open Sans", sans-serif;
+    font-size: 17px;
+    margin-bottom: 30px;
+    padding: 0 20px 20px;
+    width: 100%;
+`;
+
+export const Container = styled.div``;
+
+export const InfoDocument = styled.div `
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+    width: 100%;
+
+    select {
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        cursor: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        margin: 0;
+        outline: none;
+        padding: 0 1em 0 0;
+        width: 100%;
+        z-index: 1;
+
+        &::-ms-expand {
+            display: none;
+        }
+    }
+
+    .select {
+        align-items: center;
+        background-color: rgba(232, 234, 246, 0.6);
+        border: 1px solid #e8eaf6;
+        border-radius: 4px;
+        color: #717271;
+        cursor: pointer;
+        display: grid;
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        grid-template-areas: "select";
+        line-height: 1.1;
+        padding: 15px;
+        position: relative;
+        width: 48%;
+
+        select,
+        &::after {
+            grid-area: select;
+        }
+
+        &:after {
+            --background-color: #717271;
+            --clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+            --content: "";
+            --justify-self: end;
+            --height: 0.5em;
+            --width: 0.8em;
+        }
+    }
+
+    select:focus + .focus {
+        border: 2px solid #c02;
+        border-radius: inherit;
+        bottom: -1px;
+        left: -1px;
+        position: absolute;
+        right: -1px;
+        top: -1px;
+    }
+
+    svg {
+        font-size: 18px;
+        justify-self: end;
+        position: absolute;
+        right: 5px;
+    }
+`;
+
+const messageColors = {
+    default: '#999',
+    error: '#e57878',
+    success: '#78e5d5'
+};
+
+export const UploadMessage = styled.div`
+    align-items: center;
+    color: ${props => messageColors[props.type || 'default']};
+    display: flex;
+    justify-content: center;
+    padding: 30px 20px;
+    flex-flow: column;
+
+    .icon-upload {
+        height: 25px;
+        width: 25px;
+    }
+
+    p {
+        color: #717271;
+        display: block;
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+`;
