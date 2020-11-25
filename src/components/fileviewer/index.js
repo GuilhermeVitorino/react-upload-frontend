@@ -116,7 +116,7 @@ const FileViewer = ({ files, onDelete }) => (
         return (
           <CardViewDocument>
             <CardHeaderDocument>{file.name}</CardHeaderDocument>
-            <CardImage onMouseOver={() => showMessage(file)} style={{ minHeight: "350px" }}>
+            <CardImage style={{ minHeight: "350px" }}>
               {imageMimeType.includes(file.type) && (
                 <SideBySideMagnifier
                   switchSides={index % 2 == 1}
