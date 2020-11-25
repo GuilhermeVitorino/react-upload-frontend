@@ -43,7 +43,12 @@ export default class Upload extends Component {
                           application/docx,
                           application/ms-doc,
                           application/msword,
-                          application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                          application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+                          application/excel,
+                          application/vnd.ms-excel,
+                          application/x-excel,
+                          application/x-msexcel,
+                          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
                         "
                 onDropAccepted={onUpload} >
         {({ getRootProps, getInputProps, isDragActive, isDragReject }) =>(

@@ -18,24 +18,25 @@ const imageMimeType = [
   'image/jpeg',
   'image/pjpeg',
   'image/png',
-  'image/gif',
-  'application/doc',
-  'application/ms-doc',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  'image/gif'
 ]
 
 const pdfMimeType = [
   'application/pdf'
 ]
 
-const docMimeType = [
+const msDocumentMimeType = [
   'application/zip',
   'application/x-msi',
   'application/doc',
   'application/ms-doc',
   'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/excel',
+  'application/vnd.ms-excel',
+  'application/x-excel',
+  'application/x-msexcel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ]
 
 function rand() {
@@ -125,7 +126,7 @@ export default function SimpleModal({ files, index }) {
           {pdfMimeType.includes(file.type) && (
             <iframe src={file.url + '?#zoom=100%&scrollbar=0&toolbar=0&navpanes=0'} width="100%" height="95%"></iframe>
           )}
-          {docMimeType.includes(file.type) && (
+          {msDocumentMimeType.includes(file.type) && (
             <iframe width="100%" height="100%" src={"https://view.officeapps.live.com/op/embed.aspx?src=" + file.url} frameborder="0"/>
           )}
         </ContainerBody>
