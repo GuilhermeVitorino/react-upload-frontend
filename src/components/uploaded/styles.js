@@ -55,18 +55,9 @@ export const InfoDocument = styled.div `
         padding: 0 1em 0 0;
         width: 100%;
         z-index: 1;
-        height: 40px;
-        color: #8f9bb3;
-        font-family: Open Sans,sans-serif;
-        padding: 10px;
 
         &::-ms-expand {
             display: none;
-        }
-
-        option {
-          color: #192038;
-          font-family: Open Sans,sans-serif;
         }
     }
 
@@ -82,13 +73,13 @@ export const InfoDocument = styled.div `
         font-size: 14px;
         grid-template-areas: "select";
         line-height: 1.1;
+        padding: 15px;
         position: relative;
         width: 48%;
 
         select,
         &::after {
             grid-area: select;
-            heigth: 40px;
         }
 
         &:after {
@@ -145,17 +136,4 @@ export const UploadMessage = styled.div`
         font-size: 14px;
         margin-top: 20px;
     }
-`;
-
-export const FilesToUpload = styled.div`
-    margin: auto;
-    margin-top: 5%;
-    margin-right: 5%;
-    min-width: 100%;
-    max-width: 400px;
-    background: #FFF;
-    border-radius: 4px;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    box-shadow: 0 0.5rem 1rem 0 rgba(44,51,73,.1);
 `;

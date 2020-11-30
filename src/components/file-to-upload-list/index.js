@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { MdCheckCircle, MdError, MdLink } from 'react-icons/md';
+import Btn from '../button';
+import { Container, Header, FileInfo, Preview } from './styles';
 
-import { Container, FileInfo, Preview } from './styles';
-
-const FileList = ({ files, onDelete }) => (
+const FileToUploadList = ({ files, onDelete, btnUploadFiles }) => (
      <Container>
          {files.length > 0 && (
              <ul>
@@ -56,7 +56,10 @@ const FileList = ({ files, onDelete }) => (
                  ))}
              </ul>
          )}
+         { !!files.length && (
+          <Btn onClickBtn={() => btnUploadFiles()} btnText={"ANEXAR"}/>
+         )}
     </Container>
 );
 
-export default FileList;
+export default FileToUploadList;

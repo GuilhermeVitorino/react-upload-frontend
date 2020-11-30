@@ -4,7 +4,7 @@ export const Container = styled.div.attrs({
     classname: 'fileList'
 })`
     ul {
-        border-top: 1px solid #e8eaf6;
+        border-top: 1px solid #edf1f7;
         margin-top: 20px;
         padding-left: 20px;
         padding-right: 20px;
@@ -21,6 +21,17 @@ export const Container = styled.div.attrs({
             }
         }
     }
+`;
+
+export const Header = styled.h2`
+  border-bottom: 1px solid #edf1f7;
+  color: #192038;
+  display: flex;
+  font-family: "Open Sans", sans-serif;
+  font-size: .9375rem;
+  margin-bottom: 20px;
+  padding: 0 20px 20px;
+  width: 100%;
 `;
 
 export const FileInfo = styled.div`

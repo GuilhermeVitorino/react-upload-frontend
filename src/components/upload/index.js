@@ -57,7 +57,7 @@ export default class Upload extends Component {
             <InfoDocument>
               <div class="select">
                 <select>
-                  <option selected>Tipo de Documento</option>
+                  <option value="" disabled selected>Tipo de Documento</option>
                   <option value="0">RG</option>
                   <option value="1">CPF</option>
                   <option value="2">CNH</option>
@@ -67,7 +67,7 @@ export default class Upload extends Component {
               </div>
               <div class="select">
                 <select>
-                  <option selected>Restrição do Documento</option>
+                  <option value="" disabled selected>Restrição do Documento</option>
                   <option value="0">Todos</option>
                   <option value="1">Institucional</option>
                   <option value="2">Restrito</option>

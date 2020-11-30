@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Button, ContainerButton } from './styles';
 
-const Btn = ( { onClickBtn }) => (
+const Btn = ( { onClickBtn, btnText }) => (
     <ContainerButton>
-        <Button onClick={() => onClickBtn()} > Anexar </Button>   
+        <Button onClick={() => onClickBtn()} > {btnText} </Button>   
     </ContainerButton>
 );
 

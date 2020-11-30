@@ -4,7 +4,7 @@ export const Container = styled.div`
     align-items: center;
     display: flex;
     justify-content: center;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 400ms ease-in;
     
     &.active {
@@ -14,7 +14,7 @@ export const Container = styled.div`
     .overflow {
         background: rgba(0,0,0,0.8);
         bottom: 0;
-        display: none;
+        --display: none;
         left: 0;
         opacity: 0;
         pointer-events: none;
@@ -33,9 +33,11 @@ export const Container = styled.div`
         background-color: #fff;
         border-radius: 4px;
         border-top: 4px solid #c02;
-        display: none;
+        --display: none;
         max-width: 90%;
-        opacity: 0;
+        min-width: 90%;
+        height: 90%;
+        --opacity: 1;
         padding: 20px 0;
         position: fixed;
         top: 100px;
@@ -51,21 +53,21 @@ export const Container = styled.div`
 
 export const ContainerHeader = styled.div`
     align-items: center;
-    border-bottom: 1px solid #e8eaf6;
+    border-bottom: 1px solid #edf1f7;
     display: flex;
     flex-flow: row nowrap;
     padding: 0 20px 20px;
 `;
 
 export const Header = styled.h2`
-    color: #717271;
+    color: #192038;
     font-family: "Open Sans", sans-serif;
-    font-size: 17px;
+    font-size: .9375rem;
     width: 100%;
 `;
 
 const Button = styled.button`
-    background-color: #FF0547;
+    background-color: #C21030;
     border: none;
     border-radius: 4px;
     color: #fff;
@@ -80,6 +82,10 @@ const Button = styled.button`
 
     &:hover {
         background-color: #FA2D63;
+    }
+
+    &:disabled {
+      background-color: #edf1f7;
     }
 
     svg {
@@ -100,10 +106,15 @@ export const ButtonRight = styled(Button)`
 export const ButtonClose = styled(Button)``;
 
 export const ContainerBody = styled.div`
-    display: flex;
+    --display: flex;
     justify-content: center;
     height: 100%;
-    max-height: 500px;
+    max-height: 90%;
     overflow: auto;
     margin: 20px;
+
+    > embed {
+    }
 `;
+
+export const ButtonView = styled(Button)``;

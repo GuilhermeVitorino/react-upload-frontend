@@ -8,21 +8,22 @@ import GlobalStyle from './styles/global';
 import { FilesToUpload, UploadedFiles, FilesView, MainContainer, MenuSidebar, ContainerContent } from './styles'
 
 import Upload from './components/upload';
-import FileList from './components/filelist';
-import Btn from './components/button';
+import FileToUploadList from './components/file-to-upload-list';
+import FileList from './components/uploaded-file-list';
 import FileViewer from './components/fileviewer';
 import CardData from './components/card-data';
-import Modal from './components/modal';
 
 class App extends Component {
+  
   state = {
     uploadedFiles: [],
-    filesToUpload: false
+    filesToUpload: false,
+    showDetailedFiles: false
   };
 
   async componentDidMount() {
     const response = await api.get('posts');
-    
+
     this.setState({
       uploadedFiles: response.data.map(file => ({
         id: file._id,
@@ -55,8 +56,6 @@ class App extends Component {
       filesToUpload: this.getFilesToUpload
     });
 
-    //uploadedFiles.forEach(this.processUpload);
-
   };
 
   btnUploadFiles = () => {
@@ -67,10 +66,10 @@ class App extends Component {
     this.setState({
       uploadedFiles: this.state.uploadedFiles.map(uploadedFile => {
         return id === uploadedFile.id
-          ? { ...uploadedFile, ...data} 
+          ? { ...uploadedFile, ...data }
           : uploadedFile;
-        }),
-        filesToUpload: this.getFilesToUpload
+      }),
+      filesToUpload: this.getFilesToUpload
     });
   };
 
@@ -100,7 +99,7 @@ class App extends Component {
         filesToUpload: this.getFilesToUpload()
       });
 
-    }).catch(() =>{
+    }).catch(() => {
 
       this.updateFile(uploadedFile.id, {
         error: true,
@@ -111,11 +110,11 @@ class App extends Component {
 
   handleDelete = async (id, uploaded) => {
 
-    if ( uploaded ) { await api.delete(`posts/${id}`)}
+    if (uploaded) { await api.delete(`posts/${id}`) }
 
     const newUploadedFiles = this.state.uploadedFiles.filter(file => file.id !== id)
     const newUploadedFiles2 = newUploadedFiles.filter(file => file.uploaded === false)
-    
+
     this.setState({
       uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
       filesToUpload: !!newUploadedFiles2.length
@@ -123,46 +122,65 @@ class App extends Component {
 
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
   }
 
-  getFilesToUpload(){
+  getFilesToUpload() {
     return !!this.state.uploadedFiles.filter(file => file.uploaded === false).length
   }
 
+  handleDetailedFilesInterruptor(e) {
+    this.setState({
+      showDetailedFiles: e.target.checked
+    });
+  }
+
   render() {
-    
+
     const { uploadedFiles } = this.state;
     const { filesToUpload } = this.state;
+    const { showDetailedFiles } = this.state;
 
     return (
       <MainContainer>
         <MenuSidebar />
         <ContainerContent>
+
           <CardData />
+
           <FilesToUpload>
             <Upload onUpload={this.handleUpload} />
-            { !!uploadedFiles.length && (
-              <FileList files={uploadedFiles.filter(file => file.uploaded === false)} onDelete={this.handleDelete} />
-            )}
-            { filesToUpload && (
-              <Btn onClickBtn={this.btnUploadFiles}/>
+            {!!uploadedFiles.length && (
+              <FileToUploadList
+                files={uploadedFiles.filter(file => file.uploaded === false)}
+                onDelete={this.handleDelete}
+                btnUploadFiles={this.btnUploadFiles} />
             )}
           </FilesToUpload>
-          { !!uploadedFiles.length && (
+
+          {!!uploadedFiles.length && (
             <UploadedFiles>
-                <FileList files={uploadedFiles.filter(file => file.uploaded === true)} onDelete={this.handleDelete} />
+              <FileList
+                files={uploadedFiles.filter(file => file.uploaded === true)}
+                onDelete={this.handleDelete}
+                onChangeInterruptor={this.handleDetailedFilesInterruptor.bind(this)}
+               />
             </UploadedFiles>
           )}
-          { !!uploadedFiles.length && (
-              <FileViewer files={uploadedFiles.filter(file => file.uploaded === true)} onDelete={this.handleDelete} />
+
+          {!!uploadedFiles.length && showDetailedFiles && (
+            <FileViewer
+              files={uploadedFiles.filter(file => file.uploaded === true)}
+              onDelete={this.handleDelete}
+            />
           )}
-          <GlobalStyle/>
+
+          <GlobalStyle />
         </ContainerContent>
-        <Modal />
+
       </MainContainer>
-    );  
+    );
   }
 }
 

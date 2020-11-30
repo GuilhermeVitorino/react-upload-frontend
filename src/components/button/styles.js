@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-    background-color: #FF0547;
+    background-color: #C21030;
     border: none;
     border-radius: 4px;
     color: white;
@@ -14,6 +14,7 @@ export const Button = styled.button`
     margin-top: 10px;
     padding: 10px;
     text-decoration: none;
+    float: right;
 
     &:hover {
         background-color: #FA2D63;

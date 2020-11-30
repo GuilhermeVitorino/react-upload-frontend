@@ -22,17 +22,21 @@ export const FilesToUpload = styled.div`
     border-radius: 4px;
     padding-bottom: 20px;
     padding-top: 20px;
+    box-shadow: 0 0.5rem 1rem 0 rgba(44,51,73,.1);
 `;
 
 export const UploadedFiles = styled.div`
     margin: auto;
     margin-top: 5%;
+    margin-bottom: 5%;
+    margin-right: 5%;
     min-width: 100%;
-    width: 50%;
     max-width: 400px;
     background: #FFF;
     border-radius: 4px;
-    padding: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    box-shadow: 0 0.5rem 1rem 0 rgba(44,51,73,.1);
 `;
 
 export const FilesView = styled.div`

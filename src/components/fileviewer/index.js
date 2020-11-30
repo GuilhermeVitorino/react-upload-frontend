@@ -16,7 +16,7 @@ import {
   ButtonView,
   ButtonDelete
 } from "./styles";
-import SimpleModal from "../modal2";
+import SimpleModal from "../modal";
 
 import {
   Magnifier,

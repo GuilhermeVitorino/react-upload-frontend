@@ -12,11 +12,11 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.h2`
-  border-bottom: 1px solid #e8eaf6;
-  color: #717271;
+  border-bottom: 1px solid #edf1f7;
+  color: #192038;
   display: flex;
   font-family: "Open Sans", sans-serif;
-  font-size: 17px;
+  font-size: .9375rem;
   margin-bottom: 20px;
   padding: 0 20px 20px;
   width: 100%;
@@ -30,9 +30,9 @@ export const ContainerCardViewDocument = styled.div`
 `;
 
 export const CardViewDocument = styled.div`
-    border: 1px solid #e8eaf6;
+    border: 1px solid #edf1f7;
     border-radius: 4px;
-    box-shadow: 0px 5px 10px 0 #e8eaf6;
+    box-shadow: 0px 5px 10px 0 #edf1f7;
     margin-bottom: 30px;
     width: 48%;
     --height: 100%;
@@ -40,11 +40,11 @@ export const CardViewDocument = styled.div`
 `;
 
 export const CardHeaderDocument = styled.h2`
-    border-bottom: 1px solid #e8eaf6;
-    color: #717271;
+    border-bottom: 1px solid #edf1f7;
+    color: #192038;
     display: flex;
     font-family: "Open Sans", sans-serif;
-    font-size: 17px;
+    font-size: .9375rem;
     margin-bottom: 20px;
     padding: 20px;
     width: 100%;
@@ -65,7 +65,7 @@ export const CardImage = styled.div`
 `
 
 export const CardActions = styled.div`
-    border-top: 1px solid #e8eaf6;    
+    border-top: 1px solid #edf1f7;    
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
@@ -100,9 +100,9 @@ export const SelectStatus = styled.div`
     .select {
         align-items: center;
         background-color: rgba(232, 234, 246, 0.6);
-        border: 1px solid #e8eaf6;
+        border: 1px solid #edf1f7;
         border-radius: 4px;
-        color: #717271;
+        color: #192038;
         cursor: pointer;
         display: grid;
         font-family: "Open Sans", sans-serif;
@@ -139,7 +139,7 @@ export const SelectStatus = styled.div`
 `;
 
 const Button = styled.button`
-    background-color: #FF0547;
+    background-color: #C21030;
     border: none;
     border-radius: 4px;
     color: white;
