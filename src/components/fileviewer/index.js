@@ -151,7 +151,7 @@ const FileViewer = ({ files, onDelete }) => (
               <ButtonEdit>
                 <FaEdit />
               </ButtonEdit>
-              <SimpleModal files={files} index={index} />
+              <SimpleModal files={files} index={index} btnType={"icon"}/>
             </CardActions>
           </CardViewDocument>
         )

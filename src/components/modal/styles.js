@@ -40,7 +40,7 @@ export const Container = styled.div`
         --opacity: 1;
         padding: 20px 0;
         position: fixed;
-        top: 100px;
+        top: 6%;
         width: auto;
         z-index: 3;
         

@@ -14,31 +14,6 @@ import {
   ContainerBody
 } from "./styles";
 
-const imageMimeType = [
-  'image/jpeg',
-  'image/pjpeg',
-  'image/png',
-  'image/gif'
-]
-
-const pdfMimeType = [
-  'application/pdf'
-]
-
-const msDocumentMimeType = [
-  'application/zip',
-  'application/x-msi',
-  'application/doc',
-  'application/ms-doc',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'application/excel',
-  'application/vnd.ms-excel',
-  'application/x-excel',
-  'application/x-msexcel',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-]
-
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -65,7 +40,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleModal({ files, index }) {
+export default function SimpleModal({ files, index, btnType }) {
+
+  const imageMimeType = [
+    'image/jpeg',
+    'image/pjpeg',
+    'image/png',
+    'image/gif'
+  ]
+
+  const pdfMimeType = [
+    'application/pdf'
+  ]
+
+  const msDocumentMimeType = [
+    'application/zip',
+    'application/x-msi',
+    'application/doc',
+    'application/ms-doc',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/excel',
+    'application/vnd.ms-excel',
+    'application/x-excel',
+    'application/x-msexcel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  ]
 
   const [fileIndex, setFileIndex] = useState(index);
   const [modalStyle] = React.useState(getModalStyle);
@@ -118,7 +118,7 @@ export default function SimpleModal({ files, index }) {
             Fechar
           </ButtonClose>
         </ContainerHeader>
-        <ContainerBody>        
+        <ContainerBody>
           {imageMimeType.includes(file.type) && (
             <img src={file.url} />
           )}
@@ -126,7 +126,7 @@ export default function SimpleModal({ files, index }) {
             <iframe src={file.url + '?#zoom=100%&scrollbar=0&toolbar=0&navpanes=0'} width="100%" height="95%"></iframe>
           )}
           {msDocumentMimeType.includes(file.type) && (
-            <iframe width="100%" height="100%" src={"https://view.officeapps.live.com/op/embed.aspx?src=" + file.url} frameborder="0"/>
+            <iframe width="100%" height="100%" src={"https://view.officeapps.live.com/op/embed.aspx?src=" + file.url} frameborder="0" />
           )}
         </ContainerBody>
       </div>
@@ -136,7 +136,12 @@ export default function SimpleModal({ files, index }) {
   return (
     <div>
       <ButtonView onClick={handleOpen}>
-        <BiShow />
+        {btnType == 'text' && (
+          'visualizar'
+        )}
+        {btnType == 'icon' && (
+          <BiShow />
+        )}
       </ButtonView>
       <Modal
         open={open}
