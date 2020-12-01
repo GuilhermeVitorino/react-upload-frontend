@@ -139,7 +139,7 @@ export const UploadMessage = styled.div`
     }
 
     p {
-        color: #192038;
+        color: #999;
         display: block;
         font-family: "Open Sans", sans-serif;
         font-size: 14px;

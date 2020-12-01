@@ -9,11 +9,12 @@ import Btn from "../button/index.js";
 import { ReactComponent as PdfSVG } from "../../assets/pdf-icon.svg";
 import { ReactComponent as WordSVG } from "../../assets/word-icon.svg";
 import { ReactComponent as ExcelSVG } from "../../assets/excel-icon.svg"
+import SimpleModal from "../modal/index.js";
 
 function FileList({ files, onDelete, onChangeInterruptor }) {
 
   const [selectedFiles, setSelectedFiles] = useState([]);
-
+  
   function handleFileCheck(file, e) {
 
     file.checked = e.target.checked;
@@ -59,8 +60,9 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
           {files.map(uploadedFile => (
             <li key={uploadedFile.id}>
               <FileInfo>
+                
                 <input type="checkbox" defaultChecked={uploadedFile.ckecked} onChange={(e) => handleFileCheck(uploadedFile, e)} />
-
+                
                 <Tooltip
                   content={(
                     <div>
@@ -152,7 +154,7 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
           />
         </FormGroup>
         {selectedFiles.length > 0 && (
-          <Btn onClickBtn={() => { }} btnText={"VISUALIZAR ARQUIVOS"} />
+          <SimpleModal files={selectedFiles} index={0} />
         )}
       </Footer>
     </Container>

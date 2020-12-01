@@ -76,7 +76,7 @@ const Button = styled.button`
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
     font-weight: bold;
-    height: 38px;
+    height: 42px;
     padding: 10px;
     text-decoration: none;
 

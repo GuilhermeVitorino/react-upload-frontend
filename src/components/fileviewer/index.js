@@ -135,15 +135,15 @@ const FileViewer = ({ files, onDelete }) => (
             </CardImage>
             <CardActions>
               <SelectStatus>
-                <div class="select">
-                  <select>
-                    <option selected>Status</option>
-                    <option value="0">Válido</option>
-                    <option value="1">Inválido</option>
-                  </select>
-                  <span class="focus"></span>
-                  <RiArrowDownSLine />
-                </div>
+              <div class="select">
+                <select>
+                  <option value="" disabled selected>Status</option>
+                  <option value="Valido">Valido</option>
+                  <option value="Invalido">Invalido</option>
+                </select>
+                <span class="focus"></span>
+                <RiArrowDownSLine />
+              </div>
               </SelectStatus>
               <ButtonDelete onClick={() => onDelete(file.id, file.uploaded)}>
                 <RiDeleteBin7Fill />

@@ -32,6 +32,11 @@ export const Container = styled.div.attrs({
             }
 
         }
+
+        li:hover {
+          background-color: #f7f9fc;
+          border-radius: 10px;
+        }
     }
 `;
 
@@ -54,12 +59,23 @@ export const Footer = styled.div`
     div {
       display: inline-block;
       width: 50%;
+      float: left;
+
+      label {
+        margin-left: 20px;
+        font-family: "Open Sans", sans-serif;
+      }
     }
 
     span {
       font-family: "Open Sans", sans-serif;
       font-size: .9375rem;
       fint-color: #192038;
+    }
+
+    button {
+      float: right;
+      margin-right: 20px;
     }
 `;
 
@@ -85,6 +101,16 @@ export const FileInfo = styled.div`
             }
         }
     }
+
+    input[type="checkbox"]::before {
+      color: #7bbe72;
+    }
+
+    input[type="checkbox"]:checked::after {
+      -webkit-transform: rotate(-45deg) scale(1);
+      transform: rotate(-45deg) scale(1);
+    }
+
 `;
 
 export const Preview = styled.div`

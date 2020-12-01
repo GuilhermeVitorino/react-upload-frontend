@@ -76,47 +76,64 @@ export const CardActions = styled.div`
 export const SelectStatus = styled.div`
     display: flex;
     margin-right: 10px;
-    width: 20%;
+    width: 100%;
 
     select {
-        appearance: none;
-        background-color: transparent;
-        border: none;
-        cursor: inherit;
-        font-family: inherit;
-        font-size: inherit;
-        line-height: inherit;
-        margin: 0;
-        outline: none;
-        padding: 0 1em 0 0;
-        width: 100%;
-        z-index: 1;
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      cursor: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      margin: 0;
+      outline: none;
+      padding: 0 1em 0 0;
+      width: 100%;
+      z-index: 1;
+      height: 40px;
+      color: #8f9bb3;
+      font-family: Open Sans,sans-serif;
+      padding: 10px;
 
-        &::-ms-expand {
-            display: none;
-        }
+      &::-ms-expand {
+          display: none;
+      }
+
+      option {
+        color: #192038;
+        font-family: Open Sans,sans-serif;
+      }
     }
 
     .select {
         align-items: center;
-        background-color: rgba(232, 234, 246, 0.6);
+        background-color: #f7f9fc;
         border: 1px solid #edf1f7;
         border-radius: 4px;
         color: #192038;
         cursor: pointer;
         display: grid;
         font-family: "Open Sans", sans-serif;
-        font-size: 12px;
-        font-weight: bold;
+        font-size: 14px;
         grid-template-areas: "select";
         line-height: 1.1;
-        padding: 8px;
         position: relative;
-        width: 100%;
+        width: 50%;
 
         select,
         &::after {
             grid-area: select;
+            heigth: 40px;
+        }
+
+        &:after {
+            --background-color: #192038;
+            --clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+            --content: "";
+            --justify-self: end;
+            --height: 0.5em;
+            --width: 0.8em;
         }
     }
 
