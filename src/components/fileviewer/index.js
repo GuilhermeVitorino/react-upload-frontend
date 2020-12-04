@@ -138,8 +138,13 @@ const FileViewer = ({ files, onDelete }) => (
               <div class="select">
                 <select>
                   <option value="" disabled selected>Status</option>
-                  <option value="Valido">Valido</option>
-                  <option value="Invalido">Invalido</option>
+                  <option value="Não recebido">Não recebido</option>
+                  <option value="Recebido">Recebido</option>
+                  <option value="Não é necessário">Não é necessário</option>
+                  <option value="Eliminado">Eliminado</option>
+                  <option value="Inválido">Inválido</option>
+                  <option value="Criado">Criado</option>
+                  <option value="E-Ticket">E-Ticket</option>
                 </select>
                 <span class="focus"></span>
                 <RiArrowDownSLine />
