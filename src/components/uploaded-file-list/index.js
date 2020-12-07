@@ -1,30 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { MdCheckCircle, MdError, MdLink } from 'react-icons/md';
 import Tooltip from 'react-tooltip-lite';
 import { Container, Header, FileInfo, Preview, Footer } from './styles.js';
 import './styles.css';
-import { FormControlLabel, FormGroup, Switch } from "@material-ui/core";
+import { Checkbox, FormControlLabel, FormGroup, Switch } from "@material-ui/core";
 import Btn from "../button/index.js";
 import { ReactComponent as PdfSVG } from "../../assets/pdf-icon.svg";
 import { ReactComponent as WordSVG } from "../../assets/word-icon.svg";
 import { ReactComponent as ExcelSVG } from "../../assets/excel-icon.svg"
 import SimpleModal from "../modal/index.js";
 
-function FileList({ files, onDelete, onChangeInterruptor }) {
+export default function FileList({ files, onChangeInterruptor }) {
 
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [booleanFilesArray, setBooleanFilesArray] = useState(files.map(f => {
+    return false;
+  }));
 
-  function handleFileCheck(file, e) {
+  const [selectAll, setSelectAll] = useState(false);
 
-    file.checked = e.target.checked;
-    const checkedFilesList = files.filter(file => file.checked);
-    setSelectedFiles(checkedFilesList);
-
+  function handleFileCheck(e, index) {
+    const newState = [...booleanFilesArray];
+    newState[index] = e.target.checked;
+    verfyAllChecked(newState);
+    setBooleanFilesArray(newState);
+    console.log(getSelectedFiles(newState));
   }
 
-  function handleInterruptor() {
+  function handleSelectAll(e) {
+    const files = [...booleanFilesArray];
+    const newState = files.map(item => {
+      return e.target.checked;
+    })
+    setBooleanFilesArray(newState);
+    setSelectAll(e.target.checked);
+  }
 
+  function verfyAllChecked(fileList) {
+    const checkeds = fileList.filter(f => f === true);
+
+    if (checkeds.length === files.length) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  }
+
+  function getSelectedFiles(array) {
+    const temp = [];
+    array.forEach((item, index) => {
+      if (item === true)
+        temp.push(files[index]);
+    });
+    return temp;
   }
 
   const wordDocumentMimeType = [
@@ -55,13 +83,15 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
   return (
     <Container>
       <Header>Lista de Documentos</Header>
+
       {files.length > 0 && (
         <ul>
-          {files.map(uploadedFile => (
+          <Checkbox checked={selectAll} onChange={(e) => handleSelectAll(e)} />Select all
+          {files.map((uploadedFile, index) => (
             <li key={uploadedFile.id}>
               <FileInfo>
 
-                <input type="checkbox" defaultChecked={uploadedFile.ckecked} onChange={(e) => handleFileCheck(uploadedFile, e)} />
+                <Checkbox checked={booleanFilesArray[index]} onChange={(e) => handleFileCheck(e, index)} />
 
                 <Tooltip
                   content={(
@@ -80,12 +110,16 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
                 >
 
                   {imageMimeType.includes(uploadedFile.type) && (
-                    <Preview src={uploadedFile.preview} />
+                    <Preview src={uploadedFile.preview}>
+                      <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                    </Preview>
                   )}
 
                   {(uploadedFile.type == "application/pdf") && (
                     <Preview>
-                      <PdfSVG></PdfSVG>
+                      <PdfSVG>
+                        <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                      </PdfSVG>
                     </Preview>
                   )}
 
@@ -93,7 +127,9 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
                     && uploadedFile.name.includes("doc", "docx")
                     && (
                       <Preview>
-                        <WordSVG></WordSVG>
+                        <WordSVG>
+                          <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                        </WordSVG>
                       </Preview>
                     )}
 
@@ -101,7 +137,9 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
                     && uploadedFile.name.includes("xls", "xlsx")
                     && (
                       <Preview>
-                        <ExcelSVG></ExcelSVG>
+                        <ExcelSVG>
+                          <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                        </ExcelSVG>
                       </Preview>
                     )}
 
@@ -120,16 +158,6 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
                     strokeWidth={10}
                     value={uploadedFile.progress}
                   />
-                )}
-
-                {uploadedFile.url && (
-                  <a
-                    href={uploadedFile.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <MdLink style={{ marginRight: 8 }} size={24} color="#222" />
-                  </a>
                 )}
 
                 {uploadedFile.uploaded &&
@@ -153,12 +181,10 @@ function FileList({ files, onDelete, onChangeInterruptor }) {
             label="Exibir lista detalhada"
           />
         </FormGroup>
-        {selectedFiles.length > 0 && (
-          <SimpleModal files={selectedFiles} index={0} btnType="text"/>
+        {booleanFilesArray.filter(f => f).length > 0 && (
+          <SimpleModal files={getSelectedFiles(booleanFilesArray)} index={0} btnType="text" />
         )}
       </Footer>
     </Container>
   )
 };
-
-export default FileList;

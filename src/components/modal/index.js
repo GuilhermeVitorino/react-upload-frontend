@@ -135,14 +135,20 @@ export default function SimpleModal({ files, index, btnType }) {
 
   return (
     <div>
-      <ButtonView onClick={handleOpen}>
-        {btnType == 'text' && (
-          'visualizar'
-        )}
-        {btnType == 'icon' && (
+      {btnType == 'text' && (
+        <ButtonView onClick={handleOpen}>
+          visualizar
+        </ButtonView>
+      )}
+      {btnType == 'icon' && (
+        <ButtonView onClick={handleOpen}>
           <BiShow />
-        )}
-      </ButtonView>
+        </ButtonView>
+      )}
+      {btnType == 'hidden' && (
+        <ButtonView style={{backgroundColor: 'transparent'}} onClick={handleOpen}>
+        </ButtonView>
+      )}
       <Modal
         open={open}
         onClose={handleClose}

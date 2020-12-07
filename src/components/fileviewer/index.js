@@ -165,6 +165,4 @@ const FileViewer = ({ files, onDelete }) => (
   </Container>
 );
 
-
-
 export default FileViewer;

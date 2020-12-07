@@ -5,6 +5,7 @@ import DropZone from 'react-dropzone';
 import {FaUpload} from 'react-icons/fa';
 
 import { RiArrowDownSLine } from 'react-icons/ri';
+import ComboBoxDocumento from "../name-combo-box";
 
 import {
   Container,
@@ -54,17 +55,7 @@ export default class Upload extends Component {
         {({ getRootProps, getInputProps, isDragActive, isDragReject }) =>(
           <Container>
             <HeaderDropContainer>Anexar Documentos</HeaderDropContainer>
-            <InfoDocument>
-              <div class="select">
-                <select>
-                  <option value="" disabled selected>Documento</option>
-                  <option value="ZISCMIR053">ORÇAMENTO POR PARTE SEGURADO DISCRIM.</option>
-                  <option value="ZISCMIR108">CONTRATO SOCIAL, ESTATUTO, REQUER.(CÓPIA)</option>
-                </select>
-                <span class="focus"></span>
-                <RiArrowDownSLine />
-              </div>
-            </InfoDocument>
+            <ComboBoxDocumento/>
             <DropContainer
             { ...getRootProps()}
             isDragActive={isDragActive}

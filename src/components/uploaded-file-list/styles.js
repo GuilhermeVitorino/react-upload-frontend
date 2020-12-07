@@ -102,15 +102,6 @@ export const FileInfo = styled.div`
         }
     }
 
-    input[type="checkbox"]::before {
-      color: #7bbe72;
-    }
-
-    input[type="checkbox"]:checked::after {
-      -webkit-transform: rotate(-45deg) scale(1);
-      transform: rotate(-45deg) scale(1);
-    }
-
 `;
 
 export const Preview = styled.div`

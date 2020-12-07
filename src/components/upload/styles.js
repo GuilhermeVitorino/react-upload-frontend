@@ -28,7 +28,6 @@ export const HeaderDropContainer = styled.h2`
     display: flex;
     font-family: "Open Sans", sans-serif;
     font-size: .9375rem;
-    margin-bottom: 30px;
     padding: 0 20px 20px;
     width: 100%;
 `;
@@ -41,82 +40,6 @@ export const InfoDocument = styled.div `
     justify-content: space-between;
     padding: 0 20px 20px;
     width: 100%;
-
-    select {
-        appearance: none;
-        background-color: transparent;
-        border: none;
-        cursor: inherit;
-        font-family: inherit;
-        font-size: inherit;
-        line-height: inherit;
-        margin: 0;
-        outline: none;
-        padding: 0 1em 0 0;
-        width: 100%;
-        z-index: 1;
-        height: 40px;
-        color: #8f9bb3;
-        font-family: Open Sans,sans-serif;
-        padding: 10px;
-
-        &::-ms-expand {
-            display: none;
-        }
-
-        option {
-          color: #192038;
-          font-family: Open Sans,sans-serif;
-        }
-    }
-
-    .select {
-        align-items: center;
-        background-color: #f7f9fc;
-        border: 1px solid #edf1f7;
-        border-radius: 4px;
-        color: #192038;
-        cursor: pointer;
-        display: grid;
-        font-family: "Open Sans", sans-serif;
-        font-size: 14px;
-        grid-template-areas: "select";
-        line-height: 1.1;
-        position: relative;
-        width: 48%;
-
-        select,
-        &::after {
-            grid-area: select;
-            heigth: 40px;
-        }
-
-        &:after {
-            --background-color: #192038;
-            --clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-            --content: "";
-            --justify-self: end;
-            --height: 0.5em;
-            --width: 0.8em;
-        }
-    }
-
-    select:focus + .focus {
-        border: 2px solid #c02;
-        border-radius: inherit;
-        bottom: -1px;
-        left: -1px;
-        position: absolute;
-        right: -1px;
-        top: -1px;
-    }
-
-    svg {
-        font-size: 18px;
-        justify-self: end;
-        position: absolute;
-        right: 5px;
-    }
 `;
 
 const messageColors = {
