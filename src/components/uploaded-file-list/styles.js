@@ -3,12 +3,17 @@ import styled from 'styled-components';
 export const Container = styled.div.attrs({
     classname: 'fileList'
 })`
+
     ul {
         margin-top: 20px;
-        padding-left: 20px;
+        margin-left: 20px;
         padding-right: 20px;
         margin-bottom: 20px;
         padding-top: 10px;
+
+        label {
+          margin-left: 0px;
+        }
 
         li {
             display: flex;

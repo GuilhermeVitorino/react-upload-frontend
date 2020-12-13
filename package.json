@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.1",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -14,6 +15,7 @@
     "react": "^17.0.0",
     "react-circular-progressbar": "^2.0.3",
     "react-dom": "^17.0.0",
+    "react-download-link": "^2.3.0",
     "react-dropzone": "^11.2.0",
     "react-icons": "^3.11.0",
     "react-image-magnifiers": "^1.4.0",

@@ -73,6 +73,7 @@ export default function SimpleModal({ files, index, btnType }) {
 
   const handleOpen = () => {
     setOpen(true);
+    console.log(files)
   };
 
   const handleClose = () => {
@@ -84,7 +85,6 @@ export default function SimpleModal({ files, index, btnType }) {
   };
 
   const next = () => {
-    console.log('next');
     if (hasNext()) {
       setFileIndex(fileIndex + 1);
     }

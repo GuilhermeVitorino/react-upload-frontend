@@ -17,24 +17,33 @@ class App extends Component {
   
   state = {
     uploadedFiles: [],
+    filteredUploadedFiles: [],
     filesToUpload: false,
     showDetailedFiles: false
   };
 
   async componentDidMount() {
     const response = await api.get('posts');
+    const data = response.data.map(file => ({
+                    id: file._id,
+                    name: file.name,
+                    readableSize: filesize(file.size),
+                    preview: file.url,
+                    uploaded: true,
+                    url: file.url,
+                    type: file.type,
+                    createdAt: this.getDateFromTimeStamp(file.createdAt)
+                  }))
 
     this.setState({
-      uploadedFiles: response.data.map(file => ({
-        id: file._id,
-        name: file.name,
-        readableSize: filesize(file.size),
-        preview: file.url,
-        uploaded: true,
-        url: file.url,
-        type: file.type,
-      }))
+      uploadedFiles: data,
+      filteredUploadedFiles: data
     });
+  }
+
+  getDateFromTimeStamp = timeStamp => {
+    const date = new Date(timeStamp);
+    return date.toLocaleDateString();
   }
 
   handleUpload = files => {
@@ -58,27 +67,42 @@ class App extends Component {
 
   };
 
+  handleFilesFilter = (e) => {
+    const lowercasedFilter = e.target.value.toLowerCase();
+    const filteredFiles = this.state.uploadedFiles.filter(item => item.name.toLowerCase().includes(lowercasedFilter));
+    this.setState({
+      filteredUploadedFiles: filteredFiles,
+    });
+  }
+
   btnUploadFiles = () => {
     this.state.uploadedFiles.filter(file => !file.uploaded).forEach(this.processUpload);
   }
 
   updateFile = (id, data) => {
+
+    const temp = [...this.state.uploadedFiles]
+    const files = temp.map(uploadedFile => {
+      return id === uploadedFile.id
+        ? { ...uploadedFile, ...data }
+        : uploadedFile;
+    })
+
     this.setState({
-      uploadedFiles: this.state.uploadedFiles.map(uploadedFile => {
-        return id === uploadedFile.id
-          ? { ...uploadedFile, ...data }
-          : uploadedFile;
-      }),
+      uploadedFiles: files,
+      filteredFiles: files,
       filesToUpload: this.getFilesToUpload
     });
   };
 
   processUpload = (uploadedFile) => {
+
     const data = new FormData();
 
     data.append('file', uploadedFile.file, uploadedFile.name);
 
     api.post('posts', data, {
+      
       onUploadProgress: e => {
         const progress = parseInt(Math.round((e.loaded * 100) / e.total));
 
@@ -86,6 +110,7 @@ class App extends Component {
           progress
         });
       }
+
     }).then((response) => {
 
       this.updateFile(uploadedFile.id, {
@@ -139,6 +164,7 @@ class App extends Component {
   render() {
 
     const { uploadedFiles } = this.state;
+    const { filteredUploadedFiles } = this.state;
     const { filesToUpload } = this.state;
     const { showDetailedFiles } = this.state;
 
@@ -162,9 +188,10 @@ class App extends Component {
           {!!uploadedFiles.length && (
             <UploadedFiles>
               <FileList
-                files={uploadedFiles.filter(file => file.uploaded === true)}
+                files={filteredUploadedFiles.filter(file => file.uploaded === true)}
                 onDelete={this.handleDelete}
                 onChangeInterruptor={this.handleDetailedFilesInterruptor.bind(this)}
+                handleFilesFilter={this.handleFilesFilter}
                />
             </UploadedFiles>
           )}
