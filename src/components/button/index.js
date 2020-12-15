@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, ContainerButton } from './styles';
 
 const Btn = ( { onClickBtn, btnText }) => (

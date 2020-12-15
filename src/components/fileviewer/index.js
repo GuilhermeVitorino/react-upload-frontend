@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import { FaEdit } from 'react-icons/fa';
-import { BiShow } from 'react-icons/bi';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import {
@@ -13,19 +12,11 @@ import {
   CardActions,
   SelectStatus,
   ButtonEdit,
-  ButtonView,
   ButtonDelete
 } from "./styles";
 import SimpleModal from "../modal";
 
-import {
-  Magnifier,
-  GlassMagnifier,
-  SideBySideMagnifier,
-  PictureInPictureMagnifier,
-  MOUSE_ACTIVATION,
-  TOUCH_ACTIVATION
-} from "react-image-magnifiers";
+import { SideBySideMagnifier } from "react-image-magnifiers";
 
 const imageMimeType = [
   'image/jpeg',
@@ -52,63 +43,7 @@ const msDocumentMimeType = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ]
 
-function toggleModal(file) {
-  console.log(file.type);
-  const overflow = document.querySelector('.overflow');
-  const modal = document.querySelector('.modal');
-  var image = document.querySelector('.image-file');
-
-  if (file.type == 'application/pdf') {
-    image = document.querySelector('.pdf-file');
-    document.querySelector('.image-file').removeAttribute('src');
-  } else {
-    document.querySelector('.pdf-file').removeAttribute('src');
-  }
-
-  if (overflow.classList.length > 1 && overflow.classList.length > 1) {
-    overflow.parentElement.classList.remove('active');
-    overflow.classList.remove('active');
-    modal.classList.remove('active');
-    image.removeAttribute('src');
-
-    return;
-  }
-
-  overflow.classList.add('active');
-  modal.classList.add('active');
-  image.setAttribute('src', file.url)
-  overflow.parentElement.classList.add('active');
-}
-
-function toggleModal2(file) {
-  console.log(file.type);
-  const overflow = document.querySelector('.overflow');
-  const modal = document.querySelector('.modal');
-  var image = document.querySelector('.image-file');
-
-  if (file.type == 'application/pdf') {
-    image = document.querySelector('.pdf-file');
-    document.querySelector('.image-file').removeAttribute('src');
-  } else {
-    document.querySelector('.pdf-file').removeAttribute('src');
-  }
-
-  if (overflow.classList.length > 1 && overflow.classList.length > 1) {
-    overflow.parentElement.classList.remove('active');
-    overflow.classList.remove('active');
-    modal.classList.remove('active');
-    image.removeAttribute('src');
-
-    return;
-  }
-
-  overflow.classList.add('active');
-  modal.classList.add('active');
-  image.setAttribute('src', file.url)
-  overflow.parentElement.classList.add('active');
-}
-
-const FileViewer = ({ files, onDelete }) => (
+const FileViewer = ({ files, onDelete, handleUpdateStatus }) => (
   <Container>
     <Header>Documentos Anexados</Header>
     <ContainerCardViewDocument>
@@ -117,26 +52,29 @@ const FileViewer = ({ files, onDelete }) => (
           <CardViewDocument>
             <CardHeaderDocument>{file.name}</CardHeaderDocument>
             <CardImage style={{ minHeight: "350px" }}>
+              
               {imageMimeType.includes(file.type) && (
                 <SideBySideMagnifier
-                  switchSides={index % 2 == 1}
+                  switchSides={index % 2 === 1}
                   fillAvailableSpace={false}
                   imageSrc={file.url}
                   imageAlt={file.name}
-                  className
                 />
               )}
+
               {pdfMimeType.includes(file.type) && (
-                <iframe width="100%" height="100%" src={file.url} />
+                <iframe title={file.name} src={file.url} width="100%" height="100%" />
               )}
+
               {msDocumentMimeType.includes(file.type) && (
-                <iframe width="100%" height="100%" src={"https://view.officeapps.live.com/op/embed.aspx?src=" + file.url} width="100%" height="100%" />
+                <iframe title={file.name} src={"https://view.officeapps.live.com/op/embed.aspx?src=" + file.url} width="100%" height="100%" />
               )}
+
             </CardImage>
             <CardActions>
               <SelectStatus>
-              <div class="select">
-                <select>
+              <div className="select">
+                <select defaultValue={file.status} onChange={(event) => handleUpdateStatus(event, file.id)}>
                   <option value="" disabled selected>Status</option>
                   <option value="Não recebido">Não recebido</option>
                   <option value="Recebido">Recebido</option>
@@ -146,7 +84,7 @@ const FileViewer = ({ files, onDelete }) => (
                   <option value="Criado">Criado</option>
                   <option value="E-Ticket">E-Ticket</option>
                 </select>
-                <span class="focus"></span>
+                <span className="focus"></span>
                 <RiArrowDownSLine />
               </div>
               </SelectStatus>

@@ -4,15 +4,13 @@ import DropZone from 'react-dropzone';
 
 import {FaUpload} from 'react-icons/fa';
 
-import { RiArrowDownSLine } from 'react-icons/ri';
 import ComboBoxDocumento from "../name-combo-box";
 
 import {
   Container,
   DropContainer,
   HeaderDropContainer,
-  UploadMessage,
-  InfoDocument
+  UploadMessage
 } from "./styles";
 
 export default class Upload extends Component {

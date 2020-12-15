@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { MdError } from 'react-icons/md';
 import Tooltip from 'react-tooltip-lite';
 import { Container, Header, FileInfo, Preview, Footer } from './styles.js';
@@ -19,59 +19,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function FileList({ files, onChangeInterruptor, handleFilesFilter }) {
+export default function FileList({ files, onChangeInterruptor, handleFilesFilter, handleFileCheck, handleSelectAll, selectAll }) {
 
   const classes = useStyles();
 
-  const [booleanFilesArray, setBooleanFilesArray] = useState(files.map(f => {
-    return false;
-  }));
-
-  const [selectAll, setSelectAll] = useState(false);
-
-  function handleFileCheck(e, index) {
-    const newState = [...booleanFilesArray];
-    newState[index] = e.target.checked;
-    verfyAllChecked(newState);
-    setBooleanFilesArray(newState);
-    console.log(getSelectedFiles(newState));
-  }
-
-  function handleSelectAll(e) {
-    const files = [...booleanFilesArray];
-    const newState = files.map(item => {
-      return e.target.checked;
-    })
-    setBooleanFilesArray(newState);
-    setSelectAll(e.target.checked);
-  }
-
-  function verfyAllChecked(fileList) {
-    const checkeds = fileList.filter(f => f === true);
-
-    if (checkeds.length === files.length) {
-      setSelectAll(true);
-    } else {
-      setSelectAll(false);
-    }
-  }
-
-  function getSelectedFiles(array) {
+  function getSelectedFiles(filesArray) {
     const temp = [];
-    array.forEach((item, index) => {
-      if (item === true && files[index] !== undefined)
-        temp.push(files[index]);
+    filesArray.forEach((f) => {
+      if (f.checked)
+        temp.push(f);
     });
     return temp;
-  }
-
-  const getDataFromURL = (url) => {
-    fetch(url)
-    .then( res => res.blob() )
-    .then( blob => {
-      var file = window.URL.createObjectURL(blob);
-      window.location.assign(file);
-    });
   }
 
   const wordDocumentMimeType = [
@@ -105,7 +63,7 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
     handleFilesFilter(e);
   }
 
-  function downloadFile(file){
+  function downloadFile(file) {
 
     fetch(file.url, {
       method: 'GET',
@@ -113,44 +71,44 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
         'Content-Type': file.type,
       },
     })
-    .then((response) => response.blob())
-    .then((blob) => {
-      // Create blob link to download
-      const url = window.URL.createObjectURL(
-        new Blob([blob]),
-      );
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute(
-        'download',
-        file.name,
-      );
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Create blob link to download
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          file.name,
+        );
 
-      // Append to html link element page
-      document.body.appendChild(link);
+        // Append to html link element page
+        document.body.appendChild(link);
 
-      // Start download
-      link.click();
+        // Start download
+        link.click();
 
-      // Clean up and remove the link
-      link.parentNode.removeChild(link);
-    });
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+      });
   }
 
   return (
     <Container>
       <Header>Lista de Documentos</Header>
-      <TextField 
+      <TextField
         onChange={handleListFileChanges}
-        className={classes.input} 
-        id="standard-basic" 
+        className={classes.input}
+        id="standard-basic"
         label="Filtrar documentos" />
       {files.length > 0 && (
         <ul>
           <li>
             <FormControlLabel
               control={
-                <Checkbox checked={selectAll} onChange={(e) => handleSelectAll(e)}/>
+                <Checkbox checked={selectAll} onChange={(e) => handleSelectAll(e.target.checked)} />
               }
               label="Selecionar todos"
             />
@@ -158,9 +116,9 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
           {files.map((uploadedFile, index) => (
             <li key={uploadedFile.id}>
               <FileInfo>
-                
-                <Checkbox checked={booleanFilesArray[index]} onChange={(e) => handleFileCheck(e, index)} />
-                
+
+                <Checkbox checked={uploadedFile.checked === true} onChange={(e) => handleFileCheck(uploadedFile)} />
+
                 <Tooltip
                   content={(
                     <div>
@@ -179,55 +137,55 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
                   tipContentClassName=""
                 >
 
-                {imageMimeType.includes(uploadedFile.type) && (
-                  <Preview src={uploadedFile.preview}>
-                    <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
-                  </Preview>
-                )}
-
-                {(uploadedFile.type == "application/pdf") && (
-                  <Preview>
-                    <PdfSVG>
+                  {imageMimeType.includes(uploadedFile.type) && (
+                    <Preview src={uploadedFile.preview}>
                       <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
-                    </PdfSVG>
-                  </Preview>
-                )}
-
-                {wordDocumentMimeType.includes(uploadedFile.type)
-                  && uploadedFile.name.includes("doc", "docx")
-                  && (
-                    <Preview>
-                      <WordSVG>
-                        <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
-                      </WordSVG>
                     </Preview>
                   )}
 
-                {excelDocumentMimeType.includes(uploadedFile.type)
-                  && uploadedFile.name.includes("xls", "xlsx")
-                  && (
+                  {(uploadedFile.type === "application/pdf") && (
                     <Preview>
-                      <ExcelSVG>
+                      <PdfSVG>
                         <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
-                      </ExcelSVG>
+                      </PdfSVG>
                     </Preview>
                   )}
+
+                  {wordDocumentMimeType.includes(uploadedFile.type)
+                    && uploadedFile.name.includes("doc", "docx")
+                    && (
+                      <Preview>
+                        <WordSVG>
+                          <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                        </WordSVG>
+                      </Preview>
+                    )}
+
+                  {excelDocumentMimeType.includes(uploadedFile.type)
+                    && uploadedFile.name.includes("xls", "xlsx")
+                    && (
+                      <Preview>
+                        <ExcelSVG>
+                          <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                        </ExcelSVG>
+                      </Preview>
+                    )}
 
                 </Tooltip>
                 <div>
-                  <strong>{uploadedFile.name}</strong>
+                    <strong>{uploadedFile.name} - ({uploadedFile.status === '' ? 'sem status' : uploadedFile.status})</strong>
                 </div>
               </FileInfo>
               <div>
 
-                
-                  <strong>{uploadedFile.createdAt}</strong>
-                
-                
+
+                <strong>{uploadedFile.createdAt}</strong>
+
+
                 <IconButton onClick={() => downloadFile(uploadedFile)} title="baixar documento">
-                  <CloudDownloadIcon/>
+                  <CloudDownloadIcon />
                 </IconButton>
-                                        
+
                 {uploadedFile.error &&
                   <MdError size={24} color="#e57878" />
                 }
@@ -245,8 +203,8 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
             label="Exibir lista detalhada"
           />
         </FormGroup>
-        {booleanFilesArray.filter((f, index) => f && files[index] !== undefined ).length > 0 && (
-          <SimpleModal files={getSelectedFiles(booleanFilesArray)} index={0} btnType="text" />
+        {files.filter(f => f.checked === true).length > 0 && (
+          <SimpleModal files={getSelectedFiles(files)} index={0} btnType="text" />
         )}
       </Footer>
     </Container>

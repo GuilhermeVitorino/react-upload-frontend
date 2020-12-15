@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { MdCheckCircle, MdError, MdLink } from 'react-icons/md';
 import Btn from '../button';
-import { Container, Header, FileInfo, Preview } from './styles';
+import { Container, FileInfo, Preview } from './styles';
 
 const FileToUploadList = ({ files, onDelete, btnUploadFiles }) => (
      <Container>

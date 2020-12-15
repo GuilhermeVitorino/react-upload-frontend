@@ -5,7 +5,7 @@ import filesize from 'filesize';
 import api from './services/api';
 
 import GlobalStyle from './styles/global';
-import { FilesToUpload, UploadedFiles, FilesView, MainContainer, MenuSidebar, ContainerContent } from './styles'
+import { FilesToUpload, UploadedFiles, MainContainer, MenuSidebar, ContainerContent } from './styles'
 
 import Upload from './components/upload';
 import FileToUploadList from './components/file-to-upload-list';
@@ -19,11 +19,12 @@ class App extends Component {
     uploadedFiles: [],
     filteredUploadedFiles: [],
     filesToUpload: false,
-    showDetailedFiles: false
+    showDetailedFiles: false,
+    selectAll: false
   };
 
   async componentDidMount() {
-    const response = await api.get('posts');
+    /*const response = await api.get('posts');
     const data = response.data.map(file => ({
                     id: file._id,
                     name: file.name,
@@ -33,6 +34,28 @@ class App extends Component {
                     url: file.url,
                     type: file.type,
                     createdAt: this.getDateFromTimeStamp(file.createdAt)
+                  }))
+
+    this.setState({
+      uploadedFiles: data,
+      filteredUploadedFiles: data
+    });*/
+    this.getFiles();
+  }
+
+  getFiles = async () => {
+    const response = await api.get('posts');
+    const data = response.data.map(file => ({
+                    id: file._id,
+                    name: file.name,
+                    status: file.status,
+                    readableSize: filesize(file.size),
+                    preview: file.url,
+                    uploaded: true,
+                    url: file.url,
+                    type: file.type,
+                    createdAt: this.getDateFromTimeStamp(file.createdAt),
+                    checked: false
                   }))
 
     this.setState({
@@ -72,6 +95,7 @@ class App extends Component {
     const filteredFiles = this.state.uploadedFiles.filter(item => item.name.toLowerCase().includes(lowercasedFilter));
     this.setState({
       filteredUploadedFiles: filteredFiles,
+      selectAll: false
     });
   }
 
@@ -80,19 +104,19 @@ class App extends Component {
   }
 
   updateFile = (id, data) => {
-
-    const temp = [...this.state.uploadedFiles]
+    this.getFiles();
+    /*const temp = [...this.state.uploadedFiles]
     const files = temp.map(uploadedFile => {
       return id === uploadedFile.id
         ? { ...uploadedFile, ...data }
         : uploadedFile;
     })
-
+    
     this.setState({
       uploadedFiles: files,
-      filteredFiles: files,
+      filteredUploadedFiles: files,
       filesToUpload: this.getFilesToUpload
-    });
+    });*/
   };
 
   processUpload = (uploadedFile) => {
@@ -100,6 +124,7 @@ class App extends Component {
     const data = new FormData();
 
     data.append('file', uploadedFile.file, uploadedFile.name);
+    data.append('status', '');
 
     api.post('posts', data, {
       
@@ -161,11 +186,89 @@ class App extends Component {
     });
   }
 
+  handleUpdateStatus(event,id) {
+    
+    const data = {
+      status: event.target.value
+    }
+
+    api.put(`posts/${id}`, data)
+    
+    .then((response) => {
+
+      console.log('status atualizado com sucesso');
+      this.getFiles();
+
+    }).catch(() => {
+
+      console.log('erro ao atualizar status');
+
+    });
+
+    this.getFiles();
+
+  }
+  
+  handleFileCheck(file) {
+
+    file.checked = !file.checked;
+
+    const temp = [...this.state.uploadedFiles]
+
+    const files = temp.map(uploadedFile => {
+      return file.id === uploadedFile.id
+        ? { ...uploadedFile, ...file }
+        : uploadedFile;
+    });
+
+    console.log(files);
+
+    const newSelectAll = this.verfyAllChecked(files);
+    
+    this.setState({
+      uploadedFiles: files,
+      filteredUploadedFiles: files,
+      filesToUpload: this.getFilesToUpload,
+      selectAll: newSelectAll
+    });
+
+  }
+
+  handleSelectAll(booleanvalue){
+       
+    const temp = [...this.state.uploadedFiles]
+    
+    const files = temp.map(uploadedFile => {
+      uploadedFile.checked = booleanvalue;
+      return uploadedFile;
+    })
+   
+    this.setState({
+      uploadedFiles: files,
+      filteredUploadedFiles: files,
+      filesToUpload: this.getFilesToUpload,
+      selectAll: booleanvalue,
+    }); 
+
+  }
+
+  verfyAllChecked(files) {
+
+    const checkeds = files.filter(f => f.checked === true);
+
+    if (checkeds.length === files.length) {
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
+
   render() {
 
     const { uploadedFiles } = this.state;
+    const { selectAll } = this.state;
     const { filteredUploadedFiles } = this.state;
-    const { filesToUpload } = this.state;
     const { showDetailedFiles } = this.state;
 
     return (
@@ -189,9 +292,13 @@ class App extends Component {
             <UploadedFiles>
               <FileList
                 files={filteredUploadedFiles.filter(file => file.uploaded === true)}
+                selectAll={selectAll}
                 onDelete={this.handleDelete}
                 onChangeInterruptor={this.handleDetailedFilesInterruptor.bind(this)}
                 handleFilesFilter={this.handleFilesFilter}
+                handleUpdateStatus={this.handleUpdateStatus.bind(this)}
+                handleFileCheck={this.handleFileCheck.bind(this)}
+                handleSelectAll={this.handleSelectAll.bind(this)}
                />
             </UploadedFiles>
           )}
@@ -200,6 +307,7 @@ class App extends Component {
             <FileViewer
               files={uploadedFiles.filter(file => file.uploaded === true)}
               onDelete={this.handleDelete}
+              handleUpdateStatus={this.handleUpdateStatus}
             />
           )}
 
