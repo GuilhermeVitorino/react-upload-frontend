@@ -7,6 +7,7 @@ import { IconButton, TextField, Checkbox, FormControlLabel, FormGroup, Switch } 
 import { ReactComponent as PdfSVG } from "../../assets/pdf-icon.svg";
 import { ReactComponent as WordSVG } from "../../assets/word-icon.svg";
 import { ReactComponent as ExcelSVG } from "../../assets/excel-icon.svg"
+import { ReactComponent as Mp4SVG } from "../../assets/mp4-icon.svg"
 import SimpleModal from "../modal/index.js";
 import { makeStyles } from '@material-ui/core/styles';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
@@ -73,24 +74,22 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
     })
       .then((response) => response.blob())
       .then((blob) => {
-        // Create blob link to download
+
         const url = window.URL.createObjectURL(
           new Blob([blob]),
         );
+
         const link = document.createElement('a');
+        
         link.href = url;
         link.setAttribute(
           'download',
           file.name,
         );
 
-        // Append to html link element page
         document.body.appendChild(link);
 
-        // Start download
         link.click();
-
-        // Clean up and remove the link
         link.parentNode.removeChild(link);
       });
   }
@@ -117,7 +116,7 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
             <li key={uploadedFile.id}>
               <FileInfo>
 
-                <Checkbox checked={uploadedFile.checked === true} onChange={(e) => handleFileCheck(uploadedFile)} />
+                <Checkbox checked={uploadedFile.checked === true} onChange={(e) => handleFileCheck(uploadedFile.id, e.target.checked)} />
 
                 <Tooltip
                   content={(
@@ -148,6 +147,14 @@ export default function FileList({ files, onChangeInterruptor, handleFilesFilter
                       <PdfSVG>
                         <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
                       </PdfSVG>
+                    </Preview>
+                  )}
+
+                  {(uploadedFile.type === "video/mp4") && (
+                    <Preview>
+                      <Mp4SVG>
+                        <SimpleModal files={[uploadedFile]} index={0} btnType="hidden" />
+                      </Mp4SVG>
                     </Preview>
                   )}
 

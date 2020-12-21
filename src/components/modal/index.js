@@ -23,7 +23,8 @@ export default function SimpleModal({ files, index, btnType }) {
   ]
 
   const pdfMimeType = [
-    'application/pdf'
+    'application/pdf',
+    'video/mp4'
   ]
 
   const msDocumentMimeType = [
@@ -118,8 +119,7 @@ export default function SimpleModal({ files, index, btnType }) {
         </ButtonView>
       )}
       {btnType === 'hidden' && (
-        <ButtonView style={{backgroundColor: 'transparent'}} onClick={handleOpen}>
-        </ButtonView>
+        <ButtonView style={{backgroundColor: 'transparent'}} onClick={handleOpen}/>
       )}
       <Modal
         open={open}
@@ -127,7 +127,40 @@ export default function SimpleModal({ files, index, btnType }) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {body}
+        <Container>
+          <div class="overflow"></div>
+          <div class="modal">
+            <ContainerHeader>
+              <Header>Visualização do Documento</Header>
+              <ButtonLeft onClick={previous} disabled={!hasPrevious()}>
+                <GrPrevious />
+              </ButtonLeft>
+              <ButtonRight onClick={next} disabled={!hasNext()}>
+                <GrNext />
+              </ButtonRight>
+              <ButtonClose onClick={handleClose}>
+                Fechar
+              </ButtonClose>
+            </ContainerHeader>
+            <ContainerBody>
+              {files.map(f => {
+
+                      if (imageMimeType.includes(f.type)) {
+                        return <img src={f.url} alt={f.name} />
+                      }
+
+                      if (pdfMimeType.includes(f.type)) {
+                        return <iframe src={f.url + '?#zoom=100%&scrollbar=0&toolbar=0&navpanes=0'} title={f.name} width="100%" height="100%" scrolling="no" />
+                      }
+
+                      if (msDocumentMimeType.includes(f.type)) {
+                        return <iframe src={"https://view.officeapps.live.com/op/embed.aspx?src=" + f.url} title={f.name} width="100%" height="100%" frameborder="0" scrolling="no"/>
+                      }
+                  }
+               )}
+            </ContainerBody>
+          </div>
+        </Container>
       </Modal>
     </div>
   );

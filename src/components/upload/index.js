@@ -20,7 +20,7 @@ export default class Upload extends Component {
           return <UploadMessage>
             <FaUpload class="icon-upload" />
             <p>Selecione um <strong>arquivo</strong></p>
-            <p>Documentos permitidos: <strong>.xls, .xlsx, .pdf, .jpeg, .png, .jpg, .doc, .docx</strong></p>
+            <p>Documentos permitidos: <strong>.xls, .xlsx, .pdf, .jpeg, .png, .jpg, .doc, .docx, .mp4</strong></p>
           </UploadMessage>
       }
 
@@ -47,7 +47,8 @@ export default class Upload extends Component {
                           application/vnd.ms-excel,
                           application/x-excel,
                           application/x-msexcel,
-                          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                          video/mp4
                         "
                 onDropAccepted={onUpload} >
         {({ getRootProps, getInputProps, isDragActive, isDragReject }) =>(

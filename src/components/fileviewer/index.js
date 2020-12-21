@@ -26,7 +26,8 @@ const imageMimeType = [
 ]
 
 const pdfMimeType = [
-  'application/pdf'
+  'application/pdf',
+  'video/mp4'
 ]
 
 const msDocumentMimeType = [

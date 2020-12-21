@@ -91,12 +91,16 @@ class App extends Component {
   };
 
   handleFilesFilter = (e) => {
+
     const lowercasedFilter = e.target.value.toLowerCase();
     const filteredFiles = this.state.uploadedFiles.filter(item => item.name.toLowerCase().includes(lowercasedFilter));
+    
     this.setState({
       filteredUploadedFiles: filteredFiles,
       selectAll: false
+    
     });
+
   }
 
   btnUploadFiles = () => {
@@ -197,7 +201,7 @@ class App extends Component {
     .then((response) => {
 
       console.log('status atualizado com sucesso');
-      this.getFiles();
+      ///this.getFiles();
 
     }).catch(() => {
 
@@ -205,28 +209,22 @@ class App extends Component {
 
     });
 
-    this.getFiles();
-
   }
   
-  handleFileCheck(file) {
+  handleFileCheck(id, booleanValue) {
 
-    file.checked = !file.checked;
+    const temp = [...this.state.filteredUploadedFiles]
 
-    const temp = [...this.state.uploadedFiles]
+    const files = temp.map(f => {
+      if (f.id === id)
+        f.checked = booleanValue
 
-    const files = temp.map(uploadedFile => {
-      return file.id === uploadedFile.id
-        ? { ...uploadedFile, ...file }
-        : uploadedFile;
+      return f;
     });
 
-    console.log(files);
-
     const newSelectAll = this.verfyAllChecked(files);
-    
+
     this.setState({
-      uploadedFiles: files,
       filteredUploadedFiles: files,
       filesToUpload: this.getFilesToUpload,
       selectAll: newSelectAll
@@ -235,16 +233,15 @@ class App extends Component {
   }
 
   handleSelectAll(booleanvalue){
-       
-    const temp = [...this.state.uploadedFiles]
+  
+    const temp = [...this.state.filteredUploadedFiles]
     
-    const files = temp.map(uploadedFile => {
-      uploadedFile.checked = booleanvalue;
-      return uploadedFile;
+    const files = temp.map(f => {
+      f.checked = booleanvalue;
+      return f;
     })
    
     this.setState({
-      uploadedFiles: files,
       filteredUploadedFiles: files,
       filesToUpload: this.getFilesToUpload,
       selectAll: booleanvalue,
